@@ -53,6 +53,10 @@ export function WeightChart({ entries, localDates, onSave, onDelete, onImport, s
   const lost = goal.start - latest.kg
   const percent = Math.max(0, Math.min(100, (lost / (goal.start - goal.mid)) * 100))
 
+  // รอบเอวล่าสุด (ไม่ได้วัดทุกครั้ง เลยหาครั้งล่าสุดที่มีค่า)
+  const lastWaist = [...points].reverse().find((p) => p.waist !== undefined)
+  const waistTarget = Math.floor(goal.height * goal.waistRatio)
+
   // ---------- สเกล: แปลง วันที่/น้ำหนัก → ตำแหน่งบนจอ ----------
   const x0 = goal.startDate.getTime()
   // แกน x ยาวถึงสิ้นปี หรือถึงวันที่ล่าสุดถ้าเลยสิ้นปีไปแล้ว
@@ -99,6 +103,31 @@ export function WeightChart({ entries, localDates, onSave, onDelete, onImport, s
       </div>
       <div className="mini-caption">
         {Math.round(percent)}% ของเป้าสิ้นปี ({goal.start} → {goal.mid})
+      </div>
+
+      <div className="waist">
+        <span className="waist-icon" aria-hidden>
+          📏
+        </span>
+        {lastWaist?.waist !== undefined ? (
+          <div className="waist-text">
+            <span>
+              รอบเอว <b>{lastWaist.waist} ซม.</b> · เป้า ≤ {waistTarget}
+              {lastWaist.waist > waistTarget ? ` (อีก ${(lastWaist.waist - waistTarget).toFixed(0)} ซม.)` : ' ✓ ถึงเป้าแล้ว'}
+            </span>
+            <small>
+              รอบเอว ÷ ส่วนสูง = {(lastWaist.waist / goal.height).toFixed(2)} (เป้า ≤ {goal.waistRatio.toFixed(2)}) · วัดเมื่อ{' '}
+              {shortDate(lastWaist.d)}
+            </small>
+          </div>
+        ) : (
+          <div className="waist-text">
+            <span>
+              ยังไม่มีรอบเอว · เป้า ≤ <b>{waistTarget} ซม.</b>
+            </span>
+            <small>วัดระดับสะดือ ตอนเช้า หายใจออกปกติ แล้วกรอกพร้อมน้ำหนักได้เลย</small>
+          </div>
+        )}
       </div>
 
       {formOpen ? (

@@ -66,6 +66,8 @@ export const goal = {
   midDate: new Date(2027, 0, 1), // เที่ยงคืนวันขึ้นปีใหม่ 2570
   final: 80,
   height: 185,
+  // เป้ารอบเอว: ไม่เกินครึ่งหนึ่งของส่วนสูง (waist-to-height ratio ≤ 0.5)
+  waistRatio: 0.5,
   protein: '160–180',
   water: '3',
 }
