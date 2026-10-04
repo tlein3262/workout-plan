@@ -235,9 +235,172 @@
 /* ---------- กราฟน้ำหนัก ---------- */
 
 .weight {
+  padding-top: 4px;
+}
+
+/* ---------- แถบสรุปน้ำหนัก (หน้าหลัก) ---------- */
+
+.weight-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-top: 12px;
-  padding: 16px;
+  padding: 10px 12px 10px 10px;
   animation: fade-up 0.6s var(--ease) 0.2s both;
+}
+
+.summary-main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.summary-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  font-size: 18px;
+}
+
+.summary-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.summary-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.summary-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.summary-value b {
+  font-size: 18px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-lost {
+  white-space: nowrap;
+}
+
+.summary-chevron {
+  margin-left: auto;
+  font-size: 22px;
+  color: var(--border-strong);
+}
+
+.summary-add {
+  flex-shrink: 0;
+  padding: 8px 14px;
+}
+
+/* ---------- Popup แผ่นเด้งจากด้านล่าง ---------- */
+
+.sheet {
+  position: fixed;
+  inset: auto 0 0;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90dvh;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 24px 24px 0 0;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.sheet[open] {
+  animation: sheet-up 0.45s var(--ease) both;
+}
+
+.sheet::backdrop {
+  background: rgba(15, 15, 20, 0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: backdrop-in 0.3s ease both;
+}
+
+.sheet-body {
+  max-height: 90dvh;
+  padding: 8px 16px calc(24px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 5px;
+  margin: 0 auto 8px;
+  border-radius: 999px;
+  background: var(--border-strong);
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sheet-head h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.sheet-close {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+/* เปิด popup แล้วโฟกัสตกที่ปุ่มปิดเอง — ไม่ต้องโชว์ขอบดำ ยกเว้นใช้คีย์บอร์ด */
+.sheet-close:focus {
+  outline: none;
+}
+
+.sheet-close:focus-visible {
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .weight-head {

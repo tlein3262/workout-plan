@@ -4,7 +4,9 @@ import { DayTabs } from './components/DayTabs'
 import { GoalCard } from './components/GoalCard'
 import { RestTimer } from './components/RestTimer'
 import { TimelineRow } from './components/TimelineRow'
+import { BottomSheet } from './components/BottomSheet'
 import { WeightChart } from './components/WeightChart'
+import { WeightSummary } from './components/WeightSummary'
 import { WorkoutCard } from './components/WorkoutCard'
 import { week, weighIns, type WeighIn } from './data/plan'
 import { useLocalStorage } from './hooks/useLocalStorage'
@@ -24,6 +26,8 @@ function App() {
   const [selected, setSelected] = useState(today)
   const [doneLog, setDoneLog] = useLocalStorage<{ date: string; ids: string[] }>('done', { date: '', ids: [] })
   const [rest, setRest] = useState<Rest | null>(null)
+  // popup น้ำหนัก: ปิด / เปิดดูกราฟ / เปิดพร้อมฟอร์มบันทึก
+  const [weightSheet, setWeightSheet] = useState<'closed' | 'view' | 'add'>('closed')
   // น้ำหนักที่กรอกบนเว็บ (เก็บในเครื่อง) — รวมกับที่เขียนไว้ใน plan.ts
   const [localWeighIns, setLocalWeighIns] = useLocalStorage<WeighIn[]>('weigh-ins', [])
   const allWeighIns = mergeWeighIns(weighIns, localWeighIns)
@@ -85,13 +89,7 @@ function App() {
         </div>
 
         <GoalCard proteinToday={proteinTotal} currentKg={allWeighIns[allWeighIns.length - 1].kg} />
-        <WeightChart
-          entries={allWeighIns}
-          localDates={localWeighIns.map((w) => w.date)}
-          onSave={saveWeighIn}
-          onDelete={deleteWeighIn}
-          onImport={importWeighIns}
-        />
+        <WeightSummary entries={allWeighIns} onOpen={() => setWeightSheet('view')} onAdd={() => setWeightSheet('add')} />
       </header>
 
       <DayTabs selected={selected} today={today} onSelect={setSelected} />
@@ -121,6 +119,17 @@ function App() {
           {new Date(__BUILD_TIME__).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' })}
         </div>
       </footer>
+
+      <BottomSheet open={weightSheet !== 'closed'} title="📉 น้ำหนัก" onClose={() => setWeightSheet('closed')}>
+        <WeightChart
+          entries={allWeighIns}
+          localDates={localWeighIns.map((w) => w.date)}
+          onSave={saveWeighIn}
+          onDelete={deleteWeighIn}
+          onImport={importWeighIns}
+          startWithForm={weightSheet === 'add'}
+        />
+      </BottomSheet>
 
       {/* key = endsAt ให้กดพักใหม่แล้วตัวจับเวลาเริ่มใหม่หมด */}
       {rest && <RestTimer key={rest.endsAt} endsAt={rest.endsAt} total={rest.total} onClose={closeRest} />}

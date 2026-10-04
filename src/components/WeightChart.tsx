@@ -21,12 +21,13 @@ type Props = {
   onSave: (entry: WeighIn) => void
   onDelete: (date: string) => void
   onImport: (list: WeighIn[]) => void
+  startWithForm?: boolean // เปิดมาพร้อมฟอร์มบันทึกเลย (กดปุ่ม + บันทึก)
 }
 
-export function WeightChart({ entries, localDates, onSave, onDelete, onImport }: Props) {
+export function WeightChart({ entries, localDates, onSave, onDelete, onImport, startWithForm = false }: Props) {
   // 📘 state สำหรับ hover: เก็บแค่ "จุดไหนกำลังถูกชี้" — ที่เหลือคำนวณจากข้อมูลทั้งหมด
   const [active, setActive] = useState<number | null>(null)
-  const [formOpen, setFormOpen] = useState(false)
+  const [formOpen, setFormOpen] = useState(startWithForm)
   const [message, setMessage] = useState('')
   // 📘 useRef: อ้างถึง element จริงบนหน้า (ที่นี่คือช่องเลือกไฟล์ที่ซ่อนอยู่) โดยไม่ทำให้วาดใหม่
   const fileInput = useRef<HTMLInputElement>(null)
@@ -74,10 +75,10 @@ export function WeightChart({ entries, localDates, onSave, onDelete, onImport }:
   const activePoint = active !== null ? points[active] : null
 
   return (
-    <section className="card weight">
+    <div className="weight">
       <div className="weight-head">
         <div>
-          <div className="section-label">📉 น้ำหนักล่าสุด</div>
+          <div className="section-label">น้ำหนักล่าสุด</div>
           <div className="weight-now">
             <b>{latest.kg.toFixed(1)}</b> กก.
             {prev && (
@@ -241,6 +242,6 @@ export function WeightChart({ entries, localDates, onSave, onDelete, onImport }:
           <input ref={fileInput} type="file" accept="application/json,.json" hidden onChange={handleImport} />
         </div>
       </details>
-    </section>
+    </div>
   )
 }
