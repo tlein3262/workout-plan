@@ -1,4 +1,6 @@
 import { exerciseId, type Workout } from '../data/plan'
+import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useWakeLock, wakeLockSupported } from '../hooks/useWakeLock'
 import { BlockSection } from './BlockSection'
 import { Confetti } from './Confetti'
 
@@ -15,9 +17,20 @@ export function WorkoutCard({ workout, done, onToggleDone, onRest }: Props) {
   const doneCount = done ? allIds.filter((id) => done.includes(id)).length : 0
   const percent = Math.round((doneCount / allIds.length) * 100)
 
+  // จอไม่ดับ: ทำงานเฉพาะตอนดูตารางวันนี้ (done ไม่ใช่ null) และเปิดสวิตช์ไว้
+  const [keepAwake, setKeepAwake] = useLocalStorage('keep-awake', true)
+  useWakeLock(done !== null && keepAwake)
+
   return (
     <div className="workout">
       {percent === 100 && <Confetti />}
+
+      {done && wakeLockSupported && (
+        <button className={`awake-toggle${keepAwake ? ' on' : ''}`} onClick={() => setKeepAwake(!keepAwake)}>
+          <span className="awake-switch" />
+          📱 จอไม่ดับระหว่างเล่น
+        </button>
+      )}
 
       {done && (
         <div className={`progress${percent === 100 ? ' complete' : ''}`}>

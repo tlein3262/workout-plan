@@ -8,6 +8,7 @@ import { WorkoutCard } from './components/WorkoutCard'
 import { week } from './data/plan'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useNow } from './hooks/useNow'
+import { unlockAudio } from './lib/sound'
 
 // วันที่แบบ 2026-10-04 (เวลาเครื่อง) ใช้แยกการติ๊กของแต่ละวัน
 const dateKey = (d: Date) =>
@@ -87,7 +88,10 @@ function App() {
                 workout={day.workout}
                 done={isToday ? doneToday : null}
                 onToggleDone={toggleDone}
-                onRest={(seconds) => setRest({ endsAt: Date.now() + seconds * 1000, total: seconds })}
+                onRest={(seconds) => {
+                  unlockAudio() // ต้องเรียกตอนผู้ใช้กดปุ่ม ไม่งั้น iPhone ไม่ยอมเล่นเสียง
+                  setRest({ endsAt: Date.now() + seconds * 1000, total: seconds })
+                }}
               />
             )}
           </TimelineRow>

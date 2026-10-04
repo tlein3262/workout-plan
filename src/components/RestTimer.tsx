@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNow } from '../hooks/useNow'
+import { beep } from '../lib/sound'
 
 type Props = {
   endsAt: number // เวลาที่หมดพัก (มิลลิวินาที)
@@ -16,8 +17,9 @@ export function RestTimer({ endsAt, total, onClose }: Props) {
 
   useEffect(() => {
     if (!finished) return
-    // หมดเวลา: สั่นมือถือ (ถ้าเครื่องรองรับ) แล้วปิดตัวเองใน 4 วิ
+    // หมดเวลา: สั่นมือถือ (ถ้าเครื่องรองรับ) + ปี๊บ แล้วปิดตัวเองใน 4 วิ
     navigator.vibrate?.([200, 100, 200])
+    beep()
     const id = setTimeout(onClose, 4000)
     return () => clearTimeout(id)
   }, [finished, onClose])
