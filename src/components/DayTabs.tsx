@@ -21,7 +21,7 @@ export function DayTabs({ selected, today, onSelect }: Props) {
         return (
           <button key={d.short} className={classes.join(' ')} onClick={() => onSelect(i)}>
             <span className="day-short">{d.short}</span>
-            <span className="day-kind">{d.workout?.title.split(' ')[0] ?? 'พัก'}</span>
+            <span className="day-kind">{d.workout?.title.split(' ')[0].replace('วัน', '') ?? 'พัก'}</span>
           </button>
         )
       })}

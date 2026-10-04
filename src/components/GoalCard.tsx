@@ -1,4 +1,4 @@
-import { goal } from '../data/plan'
+import { goal, weighIns } from '../data/plan'
 import { Countdown } from './Countdown'
 
 type Props = {
@@ -6,8 +6,10 @@ type Props = {
 }
 
 export function GoalCard({ proteinToday }: Props) {
+  // น้ำหนักล่าสุดจากบันทึก — ยังไม่เคยชั่งก็ใช้น้ำหนักเริ่มต้น
+  const current = weighIns.at(-1)?.kg ?? goal.start
   const steps = [
-    { kg: goal.start, label: 'เริ่ม' },
+    { kg: current, label: 'ตอนนี้' },
     { kg: goal.mid, label: goal.midLabel },
     { kg: goal.final, label: 'เป้าหมาย' },
   ]
@@ -28,7 +30,7 @@ export function GoalCard({ proteinToday }: Props) {
       </div>
 
       <div className="section-title">⏳ นับถอยหลังสู่ {goal.mid} กก. ({goal.midLabel})</div>
-      <Countdown target={goal.midDate} kgToLose={goal.start - goal.mid} />
+      <Countdown target={goal.midDate} kgToLose={Math.max(0, current - goal.mid)} />
 
       <div className="stats">
         <div className="stat">

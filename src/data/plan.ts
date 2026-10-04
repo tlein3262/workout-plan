@@ -48,8 +48,19 @@ export type DayPlan = {
   timeline: TimelineItem[]
 }
 
+// ---------- บันทึกน้ำหนัก ----------
+// ชั่งสัปดาห์ละครั้ง (เช้าหลังเข้าห้องน้ำ ก่อนกินอะไร) แล้วเพิ่มบรรทัดใหม่ต่อท้าย → push ขึ้น GitHub
+// waist = รอบเอว (ซม.) ไม่ใส่ก็ได้
+export type WeighIn = { date: string; kg: number; waist?: number }
+
+export const weighIns: WeighIn[] = [
+  { date: '2026-10-04', kg: 110 },
+  // { date: '2026-10-11', kg: 108.8, waist: 112 },
+]
+
 export const goal = {
   start: 110,
+  startDate: new Date(2026, 9, 4), // วันที่เริ่มแผน (เดือนใน JS นับจาก 0 → 9 = ตุลาคม)
   mid: 95,
   midLabel: 'สิ้นปี 69',
   midDate: new Date(2027, 0, 1), // เที่ยงคืนวันขึ้นปีใหม่ 2570

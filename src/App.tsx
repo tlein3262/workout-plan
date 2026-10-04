@@ -4,6 +4,7 @@ import { DayTabs } from './components/DayTabs'
 import { GoalCard } from './components/GoalCard'
 import { RestTimer } from './components/RestTimer'
 import { TimelineRow } from './components/TimelineRow'
+import { WeightChart } from './components/WeightChart'
 import { WorkoutCard } from './components/WorkoutCard'
 import { week } from './data/plan'
 import { useLocalStorage } from './hooks/useLocalStorage'
@@ -76,6 +77,7 @@ function App() {
         </div>
 
         <GoalCard proteinToday={proteinTotal} />
+        <WeightChart />
       </header>
 
       <DayTabs selected={selected} today={today} onSelect={setSelected} />

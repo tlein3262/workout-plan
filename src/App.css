@@ -232,6 +232,252 @@
   }
 }
 
+/* ---------- กราฟน้ำหนัก ---------- */
+
+.weight {
+  margin-top: 12px;
+  padding: 16px;
+  animation: fade-up 0.6s var(--ease) 0.2s both;
+}
+
+.weight-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.weight-now {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  color: var(--muted);
+}
+
+.weight-now b {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.delta {
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.delta.down {
+  background: var(--green-bg);
+  color: var(--green-fg);
+}
+
+.delta.up {
+  background: var(--orange-bg);
+  color: var(--orange-fg);
+}
+
+.weight-lost {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.weight-lost b {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.weight-lost span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.mini-progress {
+  height: 6px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.mini-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.8s var(--ease);
+}
+
+.mini-caption {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.chart-wrap {
+  position: relative;
+  margin-top: 12px;
+}
+
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.chart .grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.chart .axis-label {
+  fill: var(--muted);
+  font-size: 10px;
+}
+
+.chart .target-line {
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+  stroke-linecap: round;
+}
+
+.chart .target-label {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.chart .actual-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 1000;
+  animation: draw 1.4s var(--ease) both;
+}
+
+.chart .actual-dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 2;
+  transition: r 0.2s var(--ease);
+}
+
+.chart .point-label {
+  fill: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.chart .hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--text);
+  color: var(--surface);
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 12px));
+  animation: pop 0.25s var(--ease);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.key {
+  display: inline-block;
+  width: 16px;
+  height: 0;
+  border-top: 2px solid var(--accent);
+}
+
+.key.target {
+  border-top: 2px dashed var(--muted);
+}
+
+.weight-table {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.weight-table summary {
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.weight-table table {
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.weight-table th,
+.weight-table td {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.weight-table th {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.weight-hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.weight-hint code {
+  padding: 0 4px;
+  border-radius: 4px;
+  background: var(--surface-2);
+  font-size: 11px;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* ---------- แถบเลือกวัน ---------- */
 
 .days {
@@ -239,7 +485,8 @@
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  /* minmax(0, 1fr) = ช่องหดได้จริง ข้อความยาวจะไม่ดันจนล้นจอ */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 6px;
   margin: 0 -16px;
   padding: 10px 16px;
@@ -274,9 +521,12 @@
 }
 
 .day-kind {
+  max-width: 100%;
+  overflow: hidden;
   font-size: 10px;
   color: var(--muted);
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .day-tab.today::after {
