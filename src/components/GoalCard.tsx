@@ -1,13 +1,13 @@
-import { goal, weighIns } from '../data/plan'
+import { goal } from '../data/plan'
 import { Countdown } from './Countdown'
 
 type Props = {
   proteinToday: number
+  currentKg: number // น้ำหนักล่าสุด (จากไฟล์ + ที่กรอกบนเว็บ)
 }
 
-export function GoalCard({ proteinToday }: Props) {
-  // น้ำหนักล่าสุดจากบันทึก — ยังไม่เคยชั่งก็ใช้น้ำหนักเริ่มต้น
-  const current = weighIns.at(-1)?.kg ?? goal.start
+export function GoalCard({ proteinToday, currentKg }: Props) {
+  const current = currentKg
   const steps = [
     { kg: current, label: 'ตอนนี้' },
     { kg: goal.mid, label: goal.midLabel },

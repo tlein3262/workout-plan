@@ -478,6 +478,143 @@
   }
 }
 
+/* ---------- ปุ่ม + ฟอร์มบันทึกน้ำหนัก ---------- */
+
+.btn {
+  padding: 9px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s var(--ease), opacity 0.2s, background-color 0.2s;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn.primary {
+  border: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn.ghost {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+}
+
+.btn.ghost:hover {
+  background: var(--surface-2);
+}
+
+.add-weight {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.weigh-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  animation: expand 0.35s var(--ease) both;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.field.grow {
+  flex: 1;
+}
+
+.form-row .field:not(.grow) {
+  width: 42%;
+}
+
+/* font-size 16px กัน iPhone ซูมหน้าจอเองตอนแตะช่องกรอก */
+.field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+.form-error {
+  margin: 0;
+  font-size: 12px;
+  color: #c2410c;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.form-message {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--green-fg);
+  animation: fade-up 0.3s var(--ease) both;
+}
+
+.row-delete {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+}
+
+.row-delete:hover {
+  background: var(--orange-bg);
+  color: var(--orange-fg);
+}
+
+.backup-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.backup-row .btn {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+
 /* ---------- แถบเลือกวัน ---------- */
 
 .days {

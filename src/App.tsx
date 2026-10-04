@@ -6,14 +6,11 @@ import { RestTimer } from './components/RestTimer'
 import { TimelineRow } from './components/TimelineRow'
 import { WeightChart } from './components/WeightChart'
 import { WorkoutCard } from './components/WorkoutCard'
-import { week } from './data/plan'
+import { week, weighIns, type WeighIn } from './data/plan'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useNow } from './hooks/useNow'
 import { unlockAudio } from './lib/sound'
-
-// วันที่แบบ 2026-10-04 (เวลาเครื่อง) ใช้แยกการติ๊กของแต่ละวัน
-const dateKey = (d: Date) =>
-  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+import { dateKey, mergeWeighIns, requestPersistentStorage } from './lib/weighIns'
 
 type Rest = { endsAt: number; total: number }
 
@@ -27,6 +24,17 @@ function App() {
   const [selected, setSelected] = useState(today)
   const [doneLog, setDoneLog] = useLocalStorage<{ date: string; ids: string[] }>('done', { date: '', ids: [] })
   const [rest, setRest] = useState<Rest | null>(null)
+  // น้ำหนักที่กรอกบนเว็บ (เก็บในเครื่อง) — รวมกับที่เขียนไว้ใน plan.ts
+  const [localWeighIns, setLocalWeighIns] = useLocalStorage<WeighIn[]>('weigh-ins', [])
+  const allWeighIns = mergeWeighIns(weighIns, localWeighIns)
+
+  const saveWeighIn = (entry: WeighIn) => {
+    requestPersistentStorage()
+    // 📘 state ห้ามแก้ตรงๆ (push/splice) — สร้าง array ใหม่เสมอ React ถึงจะรู้ว่าค่าเปลี่ยน
+    setLocalWeighIns(mergeWeighIns(localWeighIns, [entry]))
+  }
+  const deleteWeighIn = (date: string) => setLocalWeighIns(localWeighIns.filter((w) => w.date !== date))
+  const importWeighIns = (list: WeighIn[]) => setLocalWeighIns(mergeWeighIns(localWeighIns, list))
 
   const day = week[selected]
   const isToday = selected === today
@@ -76,8 +84,14 @@ function App() {
           </div>
         </div>
 
-        <GoalCard proteinToday={proteinTotal} />
-        <WeightChart />
+        <GoalCard proteinToday={proteinTotal} currentKg={allWeighIns[allWeighIns.length - 1].kg} />
+        <WeightChart
+          entries={allWeighIns}
+          localDates={localWeighIns.map((w) => w.date)}
+          onSave={saveWeighIn}
+          onDelete={deleteWeighIn}
+          onImport={importWeighIns}
+        />
       </header>
 
       <DayTabs selected={selected} today={today} onSelect={setSelected} />
