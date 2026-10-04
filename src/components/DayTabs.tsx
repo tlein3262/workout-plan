@@ -1,7 +1,7 @@
 import { week } from '../data/plan'
 
-// week เรียงตาม Date.getDay() (0 = อาทิตย์) แต่บนจอเรียง จันทร์ → อาทิตย์ ให้เสาร์-อาทิตย์อยู่ติดกัน
-const DISPLAY_ORDER = [1, 2, 3, 4, 5, 6, 0]
+// ลำดับวันบนจอ (เลขตาม Date.getDay(): 0 = อาทิตย์) — อยากสลับลำดับแก้ที่นี่ เช่น [1, 2, 3, 4, 5, 6, 0] = เริ่มวันจันทร์
+const DISPLAY_ORDER = [0, 1, 2, 3, 4, 5, 6]
 
 type Props = {
   selected: number
