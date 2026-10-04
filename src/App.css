@@ -1,0 +1,1095 @@
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 16px 120px;
+}
+
+/* ทุกอย่างที่มีสีเปลี่ยนตามธีม ให้เปลี่ยนแบบนุ่มๆ */
+.card,
+.day-tab,
+.tl-dot,
+.badge,
+.block-label {
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease,
+    transform 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
+}
+
+/* ---------- Card (ใช้ร่วมกันทุกการ์ด) ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- หัวเว็บ ---------- */
+
+.hero {
+  padding: 24px 0 16px;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* จุดกระพริบแบบ "LIVE" */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.8s ease-out infinite;
+}
+
+.hero-title {
+  margin: 6px 0 18px;
+  animation: slide-in 0.5s var(--ease) both;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.hero-focus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.hero-focus strong {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 14px;
+}
+
+/* ---------- เป้าหมาย ---------- */
+
+.goal {
+  padding: 18px 16px 14px;
+  animation: fade-up 0.6s var(--ease) 0.1s both;
+}
+
+.goal-track {
+  display: flex;
+  align-items: center;
+}
+
+.goal-part {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.goal-part:first-child {
+  flex: 0;
+}
+
+.goal-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 64px;
+}
+
+.goal-step b {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.goal-step span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.goal-step.final b {
+  padding: 0 10px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* เส้นประวิ่งไปทางขวา = กำลังมุ่งหน้าไปเป้าหมาย */
+.goal-line {
+  flex: 1;
+  height: 2px;
+  margin: 0 4px 18px;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+  background-size: 24px 2px;
+  animation: dash 1s linear infinite;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.stat b {
+  display: block;
+  font-size: 16px;
+}
+
+.stat span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ---------- นับถอยหลัง ---------- */
+
+.section-title {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.countdown {
+  margin-top: 10px;
+}
+
+.countdown-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0 10px;
+  border-radius: 16px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+
+.tile b {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  animation: tick 0.45s var(--ease);
+}
+
+.tile span {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.countdown-hint {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.countdown-hint b {
+  color: var(--accent);
+}
+
+@keyframes tick {
+  from {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- แถบเลือกวัน ---------- */
+
+.days {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin: 0 -16px;
+  padding: 10px 16px;
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.day-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.day-tab:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.day-tab:active {
+  transform: scale(0.94);
+}
+
+.day-short {
+  font-weight: 700;
+}
+
+.day-kind {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.day-tab.today::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.day-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--glow);
+}
+
+.day-tab.active .day-kind {
+  color: var(--on-accent);
+  opacity: 0.7;
+}
+
+.day-tab.active.today::after {
+  background: var(--on-accent);
+}
+
+/* ---------- ไทม์ไลน์ ---------- */
+
+.timeline {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+}
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 46px 34px 1fr;
+  column-gap: 10px;
+  position: relative;
+  padding-bottom: 20px;
+  /* โผล่ทีละแถว: แถวที่ i หน่วงเวลา i × 0.05 วิ */
+  animation: fade-up 0.5s var(--ease) both;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: calc(46px + 10px + 16px);
+  top: 36px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.tl-item:last-child::before {
+  display: none;
+}
+
+.tl-time {
+  padding-top: 7px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  text-align: right;
+}
+
+.tl-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-size: 16px;
+}
+
+.kind-workout .tl-dot {
+  border-color: var(--border-strong);
+}
+
+.tl-content {
+  min-width: 0;
+  padding-top: 5px;
+}
+
+.tl-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.tl-detail {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.is-optional .tl-content,
+.is-optional .tl-dot {
+  opacity: 0.55;
+}
+
+/* ช่วงเวลาปัจจุบัน: จุดมีวงแหวนกระเพื่อม */
+.is-now .tl-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.is-now .tl-dot::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: ripple 1.8s ease-out infinite;
+}
+
+.is-now .tl-time {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.badge {
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge.now {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  animation: pop 0.4s var(--ease) both;
+}
+
+/* ---------- อาหาร ---------- */
+
+.meal {
+  margin-top: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.meal:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.meal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.protein {
+  flex-shrink: 0;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--green-bg);
+  color: var(--green-fg);
+  font-weight: 600;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.swap-btn {
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.swap-btn:hover {
+  color: var(--text);
+}
+
+.swaps {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.swaps li {
+  animation: fade-up 0.35s var(--ease) both;
+}
+
+.swaps li:nth-child(2) { animation-delay: 0.05s; }
+.swaps li:nth-child(3) { animation-delay: 0.1s; }
+.swaps li:nth-child(4) { animation-delay: 0.15s; }
+
+/* ---------- เวท ---------- */
+
+.workout {
+  margin-top: 12px;
+}
+
+.progress {
+  margin-bottom: 14px;
+}
+
+.progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.progress-text b {
+  color: var(--text);
+}
+
+.progress-track {
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: relative;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.6s var(--ease);
+  overflow: hidden;
+}
+
+/* แสงวิ่งบนแถบ */
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--glow), transparent);
+  animation: shimmer 1.6s linear infinite;
+}
+
+.progress.complete .progress-text b {
+  animation: pop 0.5s var(--ease);
+}
+
+.workout-note {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px dashed var(--border-strong);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.block {
+  margin-bottom: 16px;
+}
+
+.block-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.block-label {
+  padding: 1px 9px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.block-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.block-info b {
+  color: var(--text);
+}
+
+.block.finished .block-label {
+  background: var(--green-bg);
+  color: var(--green-fg);
+}
+
+.step {
+  margin-right: 4px;
+  color: var(--accent);
+}
+
+/* ---------- ตัวนับรอบ ---------- */
+
+.round-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.round-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.round-dot {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border: 2px solid var(--border-strong);
+  border-radius: 50%;
+  background: transparent;
+  transition: all 0.3s var(--ease);
+}
+
+.round-dot.filled {
+  background: var(--accent);
+  border-color: var(--accent);
+  animation: pop 0.4s var(--ease);
+}
+
+.round-btn {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px var(--glow);
+  transition: transform 0.2s var(--ease);
+}
+
+.round-btn:hover {
+  transform: translateY(-1px);
+}
+
+.round-btn:active {
+  transform: scale(0.95);
+}
+
+.round-done {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--green-bg);
+  color: var(--green-fg);
+  font-size: 14px;
+  font-weight: 600;
+  animation: pop 0.4s var(--ease);
+}
+
+/* ---------- การ์ดท่า ---------- */
+
+.exercise {
+  margin-bottom: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.exercise:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow);
+}
+
+.exercise.open {
+  border-color: var(--border-strong);
+}
+
+.exercise-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+}
+
+.exercise-img {
+  position: relative;
+  flex-shrink: 0;
+  width: 84px;
+  height: 84px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.exercise-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease);
+}
+
+/* ชี้เมาส์ = ซูมรูปนิดๆ */
+.exercise:hover .exercise-img img {
+  transform: scale(1.06);
+}
+
+/* สลับรูปท่าเริ่ม/ท่าจบ ให้ดูเหมือนขยับ */
+.exercise-img .frame-2 {
+  animation: flip 2.4s steps(1) infinite;
+}
+
+.exercise-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.exercise-name {
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.exercise-th {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.exercise-sets {
+  margin-top: 2px;
+  font-size: 19px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ปุ่มติ๊ก */
+.check {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 2px solid var(--border-strong);
+  border-radius: 50%;
+  background: transparent;
+  font-weight: 700;
+  transition: all 0.3s var(--ease);
+}
+
+.check:hover {
+  border-color: var(--accent);
+}
+
+.exercise.done .check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  animation: pop 0.45s var(--ease);
+}
+
+.exercise.done .exercise-name,
+.exercise.done .exercise-sets {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  opacity: 0.45;
+}
+
+.exercise.done .exercise-img {
+  opacity: 0.5;
+}
+
+/* ส่วนที่กางออก */
+.exercise-more {
+  padding: 0 10px 12px;
+  animation: expand 0.4s var(--ease) both;
+}
+
+.frames {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.frames figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.frames img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.frames figcaption {
+  padding: 4px 0;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.exercise-tip {
+  margin: 10px 0 8px;
+  font-size: 14px;
+}
+
+.pill-link {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s var(--ease);
+}
+
+.pill-link:hover {
+  transform: scale(1.04);
+}
+
+/* ---------- ตัวจับเวลาพัก ---------- */
+
+.rest-timer {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 20;
+  width: min(420px, calc(100% - 32px));
+  transform: translateX(-50%);
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  animation: rise 0.5s var(--ease) both;
+}
+
+.rest-bar {
+  position: absolute;
+  inset: 0;
+  background: var(--on-accent);
+  opacity: 0.12;
+  transform-origin: left;
+  transition: transform 0.25s linear;
+}
+
+.rest-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px 12px 18px;
+}
+
+.rest-label {
+  flex: 1;
+  font-weight: 600;
+}
+
+.rest-time {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.rest-close {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+}
+
+.rest-close:hover {
+  opacity: 1;
+}
+
+.rest-timer.finished {
+  animation: shake 0.6s ease both;
+}
+
+/* ---------- พลุฉลอง ---------- */
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.piece {
+  position: absolute;
+  top: -20px;
+  left: var(--x);
+  width: 9px;
+  height: 14px;
+  background: var(--accent);
+  animation: fall var(--dur) var(--ease) var(--delay) both;
+}
+
+.piece.shape-1 {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--accent);
+}
+
+.piece.shape-2 {
+  width: 5px;
+  height: 18px;
+  background: var(--muted);
+}
+
+/* ---------- ท้ายเว็บ ---------- */
+
+.foot {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+
+/* ---------- ป้ายสีพาสเทลแยกประเภทกิจกรรม ---------- */
+
+.kind-walk:not(.is-now) .tl-dot { background: var(--green-bg); border-color: transparent; }
+.kind-workout:not(.is-now) .tl-dot { background: var(--blue-bg); border-color: transparent; }
+.kind-meal:not(.is-now) .tl-dot { background: var(--orange-bg); border-color: transparent; }
+.kind-supp:not(.is-now) .tl-dot { background: var(--purple-bg); border-color: transparent; }
+.kind-sleep:not(.is-now) .tl-dot,
+.kind-rest:not(.is-now) .tl-dot { background: var(--cyan-bg); border-color: transparent; }
+
+.hero-focus strong,
+.block-label {
+  background: var(--blue-bg);
+  color: var(--blue-fg);
+}
+
+.workout-note {
+  border: 0;
+  background: var(--blue-bg);
+  color: var(--blue-fg);
+}
+
+.day-kind {
+  font-weight: 500;
+}
+
+.goal {
+  box-shadow: var(--shadow);
+  border-color: transparent;
+}
+
+/* ---------- keyframes ---------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--glow);
+  }
+  100% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes dash {
+  to {
+    background-position: 24px 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes flip {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 40px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  20%,
+  60% {
+    transform: translate(calc(-50% - 6px), 0);
+  }
+  40%,
+  80% {
+    transform: translate(calc(-50% + 6px), 0);
+  }
+}
+
+@keyframes fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--rot));
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(105vh) rotate(calc(var(--rot) + 540deg));
+  }
+}
+
+/* คนที่ตั้งเครื่องให้ลด animation จะไม่เห็นการเคลื่อนไหว */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
