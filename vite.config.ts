@@ -6,6 +6,10 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   // './' = อ้างไฟล์แบบ relative ใช้ได้กับ GitHub Pages ทุกชื่อ repo โดยไม่ต้องแก้ตรงนี้
   base: './',
+  // เวลาที่ build ไว้โชว์ท้ายเว็บ — ใช้เช็กว่ามือถือโหลดเวอร์ชันล่าสุดแล้วหรือยัง
+  define: {
+    __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+  },
   plugins: [
     react(),
     // PWA: ติดตั้งเป็นแอปบนมือถือได้ + เปิดได้แม้ไม่มีเน็ต

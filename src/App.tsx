@@ -116,6 +116,10 @@ function App() {
 
       <footer className="foot">
         ทุกเซ็ตเหลือแรงไว้ 1–2 ครั้ง · ถ้าทำได้ครบจำนวนครั้งสูงสุดทุกเซ็ต สัปดาห์หน้าเพิ่มน้ำหนัก
+        <div className="build">
+          อัปเดตล่าสุด{' '}
+          {new Date(__BUILD_TIME__).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' })}
+        </div>
       </footer>
 
       {/* key = endsAt ให้กดพักใหม่แล้วตัวจับเวลาเริ่มใหม่หมด */}

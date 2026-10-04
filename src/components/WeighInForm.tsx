@@ -2,6 +2,11 @@ import { useState, type FormEvent } from 'react'
 import type { WeighIn } from '../data/plan'
 import { dateKey } from '../lib/weighIns'
 
+const formatThaiDate = (iso: string) => {
+  const [y, m, d] = iso.split('-').map(Number)
+  return new Date(y, m - 1, d).toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
 type Props = {
   lastKg: number
   onSave: (entry: WeighIn) => void
@@ -61,7 +66,22 @@ export function WeighInForm({ lastKg, onSave, onCancel }: Props) {
       </div>
       <label className="field">
         <span>วันที่</span>
-        <input type="date" value={date} max={dateKey(new Date())} onChange={(e) => setDate(e.target.value)} required />
+        {/* ช่องวันที่ของ iPhone คุมขนาดยาก — วาดกล่องเอง แล้ววาง input จริงแบบโปร่งใสทับไว้
+            แตะแล้วยังได้ตัวเลือกวันที่ของระบบเหมือนเดิม */}
+        <div className="date-field">
+          <span>{date ? formatThaiDate(date) : 'เลือกวันที่'}</span>
+          <span aria-hidden>📅</span>
+          <input
+            type="date"
+            className="date-native"
+            value={date}
+            max={dateKey(new Date())}
+            onChange={(e) => setDate(e.target.value)}
+            // คอมพิวเตอร์: คลิกตรงไหนก็เปิดปฏิทิน
+            onClick={(e) => e.currentTarget.showPicker?.()}
+            required
+          />
+        </div>
       </label>
 
       {kg !== '' && !kgValid && <p className="form-error">น้ำหนักควรอยู่ระหว่าง 30–300 กก.</p>}
